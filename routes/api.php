@@ -16,20 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/v1/auth/')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('me', function (Request $request) {
+Route::prefix('/v1/auth')->middleware(['auth:sanctum'])->group(function () {
+    Route::get('/me', function (Request $request) {
         return $request->user();
     });
 
-    Route::get('logout',[AuthController::class,'logout']);
+    Route::get('logout', [AuthController::class, 'logout']);
 });
 
 Route::prefix('v1')->group(function () {
     Route::get('/', [BlogController::class, 'index']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
+
 });
 
-Route::post('/v1/auth/login', [AuthController::class, 'login']);
 
+require __DIR__ . '/api/v1/admin.php';
 
 
 
